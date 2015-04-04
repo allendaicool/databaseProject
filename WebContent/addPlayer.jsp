@@ -36,7 +36,6 @@
    		rank: <input name="rank"/> </br>
    		points:<input name="points"/> </br>
    		<input type="submit" value="add" />
-	
    		</fieldset>
    </form>
    
