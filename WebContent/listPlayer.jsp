@@ -1,28 +1,100 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page import="java.io.*,java.util.*" %>
+	pageEncoding="ISO-8859-1"%>
+<%@ page import="java.io.*,java.util.*"%>
+
+<%@ page import="java.sql.*"%>
+<%@ page import="dao.DButil"%>
+<%@ page import="java.io.*"%>
+
 <html>
 <head>
+
+<link href="table.css" rel="stylesheet">
+
+<%
+      Connection conn;
+	  conn = DButil.getConnection();
+	  
+	   PreparedStatement stat = null;
+	   String addPlayer = "select * from Players where playerID = ?";
+	  
+	   stat = conn.prepareStatement(addPlayer);
+	   String playerID = request.getParameter("playerID");
+	   System.out.println(playerID);
+	   stat.setString(1,playerID);
+	   ResultSet rst = stat.executeQuery();
+	   String name = null; 
+	   int age = 0;;
+	   String nationality = null;
+	   double height = 0;
+	   double weight = 0;
+	   String plays = null;
+	   double careerPrizeMoney = 0;
+	   int rank = 0; 
+	   int points = 0;
+	   if(rst.next()){
+		   name = rst.getString(2);
+		   age = rst.getInt(3);
+		   nationality = rst.getString(4);
+		   height = rst.getDouble(5);
+		   weight = rst.getDouble(6);
+		   plays = rst.getString(7);
+		   careerPrizeMoney = rst.getDouble(8);
+		   rank = rst.getInt(9);
+		   points = rst.getInt(10);
+	   }
+	  
+%>
 <title>HTTP Header Request Example</title>
 </head>
 <body>
-<center>
-<h2>HTTP Header Request Example</h2>
-<table width="100%" border="1" align="center">
-<tr bgcolor="#949494">
-<th>Header Name</th><th>Header Value(s)</th>
-</tr>
-<%
-   Enumeration headerNames = request.getHeaderNames();
-   while(headerNames.hasMoreElements()) {
-      String paramName = (String)headerNames.nextElement();
-      out.print("<tr><td>" + paramName + "</td>\n");
-      String paramValue = request.getHeader(paramName);
-      out.println("<td> " + paramValue + "</td></tr>\n");
-   }
-%>
-</table>
-</center>
+	<h2>Player Information</h2>
+
+	<div class="CSS_Table_Example" style="width: 250px; height: 500px;">
+		<table>
+			<tr>
+				<td>name</td>
+				<td><%=name %></td>
+			</tr>
+			<tr>
+				<td>age</td>
+				<td><%=age %></td>
+			</tr>
+			<tr>
+				<td>nationality</td>
+				<td><%=nationality %></td>
+			</tr>
+			<tr>
+				<td>height</td>
+				<td><%=height %></td>
+			</tr>
+			<tr>
+				<td>weight</td>
+				<td><%=weight %></td>
+			</tr>
+			<tr>
+				<td>plays</td>
+				<td><%=plays %></td>
+			</tr>
+			<tr>
+				<td>careerPrizeMoney</td>
+				<td><%=careerPrizeMoney %></td>
+			</tr>
+			<tr>
+				<td>rank</td>
+				<td><%=rank %></td>
+			</tr>
+			<tr>
+				<td>points</td>
+				<td><%=points %></td>
+			</tr>
+		</table>
+	</div>
+
+
+	<% conn.close(); %>
+
+
+
 </body>
 </html>
