@@ -45,13 +45,13 @@
 	   }
 	  
 %>
-<title>HTTP Header Request Example</title>
+<title>Player</title>
 </head>
 <body>
 	<h2>Player Information</h2>
 
-	<div class="CSS_Table_Example" style="width: 250px; height: 500px;">
-		<table>
+	<div style="width: 250px; height: 500px;">
+		<table border="1" style="width: 100%">
 			<tr>
 				<td>name</td>
 				<td><%=name %></td>

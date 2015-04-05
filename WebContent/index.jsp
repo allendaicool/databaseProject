@@ -33,6 +33,7 @@
       Connection conn;
 	  conn = DButil.getConnection();
 	  String findAllPlayer = "select * from Players order by rank";
+	  String listAllTour = "select * from Tournaments order by category";
 	  Statement stmt = null;
 	  stmt = conn.createStatement();
 	  //conn.setAutoCommit(false);
@@ -42,29 +43,28 @@
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1">Players</a></li>
-				<li><a href="#tabs-2">Tournament</a></li>
-				<li><a href="#tabs-3"></a></li>
+				<li><a href="#tabs-2">Tournaments</a></li>
+				<li><a href="#tabs-3">Match</a></li>
 			</ul>
 			<div id="tabs-1">
-				<% ResultSet rs = stmt.executeQuery(findAllPlayer);   %>
+				<% ResultSet rs1 = stmt.executeQuery(findAllPlayer);   %>
 
 				<table border="1" style="width: 100%">
 					<tr>
+						<td>Rank</td>
 						<td>Name</td>
-						<td>rank</td>
-						<td>link</td>
 					</tr>
 
 					<%
-         while (rs.next()) {
-           	 String name = rs.getString("name");
-           	 int rank = rs.getInt("rank");
-		     String playerID = rs.getString("playerID");
+         while (rs1.next()) {
+           	 String name = rs1.getString("name");
+           	 int rank = rs1.getInt("rank");
+		     String playerID = rs1.getString("playerID");
      %>
 
 
 					<tr>
-
+						<td><%= rank%></td>
 						<td>
 							<form id="playerid" action="listPlayer.jsp" method="post">
 								<input type="hidden" value=<%=playerID%> name="playerID">
@@ -73,20 +73,47 @@
 							</form>
 
 						</td>
-						<td><%= rank%></td>
+						
 					</tr>
 					<% } %>
 				</table>
 
-				<%
-			   conn.close();
-			%>
 
 
 
 			</div>
 			<div id="tabs-2">
-				<p></p>
+				<% ResultSet rs2 = stmt.executeQuery(listAllTour);   %>
+				<table border="1" style="width: 100%">
+					<tr>
+						<td>Category</td>
+						<td>Tournaments</td>
+					</tr>
+				<%
+         while (rs2.next()) {
+           	 String tour = rs2.getString("name");
+           	 String category = rs2.getString("category");
+		     String tournamentID = rs2.getString("tournamentID");
+     %>
+
+
+					<tr>
+						<td><%= category%></td>
+						<td>
+							<form id="tourid" action="listTour.jsp" method="post">
+								<input type="hidden" value=<%=tournamentID%> name="tournamentID">
+								</input> <a href="#" onclick="$(this).closest('form').submit();"> <%= tour%>
+								</a>
+							</form>
+
+						</td>
+						
+					</tr>
+					<% } %>
+				</table>
+				<%
+			   conn.close();
+			%>
 			</div>
 			<div id="tabs-3">
 				<p></p>
