@@ -5,30 +5,6 @@
 <%@ page import="dao.DButil"%>
 <%@ page import="java.io.*"%>
 
-
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>jQuery UI Tabs - Default functionality</title>
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
-
-</head>
-<body>
-
-  
-	<script>
-  $(function() {
-    $( "#tabs" ).tabs();
-  });
-  </script>
 	<%
       Connection conn;
 	  conn = DButil.getConnection();
@@ -37,8 +13,8 @@
 	  Statement stmt = null;
 	  stmt = conn.createStatement();
 	  //conn.setAutoCommit(false);
-%>
-	<jsp:include page="navBar.html" />
+    %>
+	<jsp:include page="navBar.jsp" />
 	<div style="position: relative;top: 50px;">
 		<div id="tabs">
 			<ul>
@@ -121,9 +97,5 @@
 		</div>
 	</div>
 
+	<jsp:include page="footer.jsp" />
 
-</body>
-
-
-
-</html>
