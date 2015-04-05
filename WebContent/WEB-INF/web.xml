@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>loginServelet</display-name>
+    <servlet-name>loginServelet</servlet-name>
+    <servlet-class>dao.loginServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>loginServelet</servlet-name>
+    <url-pattern>/loginServelet</url-pattern>
+  </servlet-mapping>
 </web-app>
