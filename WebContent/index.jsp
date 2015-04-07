@@ -4,7 +4,23 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="dao.DButil"%>
 <%@ page import="java.io.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="dao.player_opponent"%>
 
+
+<style>
+#pomatch, #pomatch th, #pomatch td {
+    border: 1px solid black;
+    
+}
+.center-block{
+    vertical-align: middle;
+    padding-left:auto;
+    padding-right:auto;
+    
+}
+.
+</style>
 	<%
       Connection conn;
 	  conn = DButil.getConnection();
@@ -15,7 +31,7 @@
 	  //conn.setAutoCommit(false);
     %>
 	<jsp:include page="navBar.jsp" />
-	<div style="position: relative;top: 50px;">
+	<div style="position: relative;top: 50px;overflow:scroll">
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1">Players</a></li>
@@ -54,6 +70,7 @@
 					<% } %>
 				</table>
 
+			
 
 
 
@@ -95,7 +112,77 @@
 				<p></p>
 			</div>
 		</div>
-	</div>
+		<%     if (session.getAttribute("currentSessionUser") != null) {%>
+            
+      <form action="addPlayerServlet" method="post"  style="padding-left: 4cm; padding-right: auto;border: 1px solid red">
+   		<fieldset  >
+			<legend>
+				add_player
+			</legend>
+   		Name: 
+		<input name="name" /><br/>
+   		Age: <input name="age" /><br/>
+   		nationality: <input name="nationality" /> </br>
+   		height: <input name="height" /> </br>
+   		weight: <input name="weight" /> </br>
+   		plays: <input type="radio" name="plays" value="Right-handed" checked>Right-handed
+   		&nbsp &nbsp &nbsp  
+   		<input type="radio" name="plays" value="Left-handed" checked>Left-handed
+   		careerPrizeMoney: <input name="careerPrizeMoney"/> 
+   		rank: <input name="rank"/> 
+   		points:<input name="points"/> 
+   		<input type="submit" value="add" />
+   		</fieldset>
+    </form>
+    
+    
+    <%} %>
+        <div class="center-block">
+    <form action="checkPlayerServlet" method="post" >
+   		playerName: 
+		 <input name="pname" /> &nbsp &nbsp
+   		opponentName: <input name="oname" /> 
+   		&nbsp &nbsp   
+   		<input type="submit" value="checkMatch" />
+    </form>     
+        </div>
+	<div class="center-block"  >
 
-	<jsp:include page="footer.jsp" />
+	     <% 
+	        ArrayList<player_opponent> rst = (ArrayList<player_opponent>)session.getAttribute("resultSet");
+	        session.removeAttribute("resultSet");
+	     %>
+	     <%if(rst!=null){ %>
+	         <table id="pomatch" style="margin-left: auto;margin-right: auto">
+        <tr>
+       	 <th>playerName</th>
+    	 <th>opponentName</th>
+    	<th>matchDate</th>
+    	<th>environment</th>
+    	<th>score</th>  
+  		</tr>
+  
+   <% for (player_opponent temp:rst) {%>
+  <tr>
+    <td><%=temp.playerName %></td>
+    <td><%=temp.opponentName %></td>
+    <td><%=temp.matchDate %></td>
+    <td><%=temp.environment %></td>
+    <td><%=temp.score %></td>
+  </tr>
+  <% } 
+  }%>
+  
+</table>
+	</div>
+       <jsp:include page="footer.jsp" />
+	
+	</div>
+	
+</body>
+</html>
+	
+	
+
+	
 

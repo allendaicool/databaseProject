@@ -5,10 +5,9 @@
 
 
 
-<div  style="margin-bottom:0px;bottom:0px;position:fixed;width:100%"> 
-<footer class="footer-distributed" >
+<footer class="footer-distributed" style="margin-bottom:0px;bottom:0px;width:100%">
 
-			<div class="footer-right">
+			<div class="footer-right" >
 
 				<a href="#"><i class="fa fa-facebook"></i></a>
 				<a href="#"><i class="fa fa-twitter"></i></a>
@@ -36,7 +35,4 @@
 				<p>Yihongdai &copy; 2015</p>
 			</div>
 
-		</footer>
-</div>
-</body>
-</html>
+</footer>
