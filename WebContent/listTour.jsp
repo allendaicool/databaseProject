@@ -180,7 +180,7 @@
 							<option value="2010">2010</option>
 						</select>
 						<input type="hidden" value=<%=tourID%> name="tournamentID">
-						<input type="submit" value="Submit">
+						<input type="submit" value="Filter">
 					</div>
 				</form>	
 				<table border="1" style="width: 100%">

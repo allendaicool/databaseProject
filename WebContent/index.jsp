@@ -25,7 +25,7 @@
       Connection conn;
 	  conn = DButil.getConnection();
 	  String findAllPlayer = "select * from Players order by rank";
-	  String listAllTour = "select * from Tournaments order by category";
+	  String listAllTour = "select distinct name, tournamentID, category from Tournaments order by category";
 	  Statement stmt = null;
 	  stmt = conn.createStatement();
 	  //conn.setAutoCommit(false);
@@ -36,7 +36,6 @@
 			<ul>
 				<li><a href="#tabs-1">Players</a></li>
 				<li><a href="#tabs-2">Tournaments</a></li>
-				<li><a href="#tabs-3">Match</a></li>
 			</ul>
 			<div id="tabs-1">
 				<% ResultSet rs1 = stmt.executeQuery(findAllPlayer);   %>
@@ -107,9 +106,6 @@
 				<%
 			   conn.close();
 			%>
-			</div>
-			<div id="tabs-3">
-				<p></p>
 			</div>
 		</div>
 		<%     if (session.getAttribute("currentSessionUser") != null) {%>
