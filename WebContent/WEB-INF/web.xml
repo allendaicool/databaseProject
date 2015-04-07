@@ -19,4 +19,54 @@
     <servlet-name>loginServelet</servlet-name>
     <url-pattern>/loginServelet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>addPlayerServlet</display-name>
+    <servlet-name>addPlayerServlet</servlet-name>
+    <servlet-class>dao.addPlayerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addPlayerServlet</servlet-name>
+    <url-pattern>/addPlayerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>checkPlayer</display-name>
+    <servlet-name>checkPlayer</servlet-name>
+    <servlet-class>dao.checkPlayer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>checkPlayer</servlet-name>
+    <url-pattern>/checkPlayer</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>checkPlayerServlet</display-name>
+    <servlet-name>checkPlayerServlet</servlet-name>
+    <servlet-class>dao.checkPlayerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>checkPlayerServlet</servlet-name>
+    <url-pattern>/checkPlayerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>logoutServelet</display-name>
+    <servlet-name>logoutServelet</servlet-name>
+    <servlet-class>logoutServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>logoutServelet</servlet-name>
+    <url-pattern>/logoutServelet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>logout_Servelet</display-name>
+    <servlet-name>logout_Servelet</servlet-name>
+    <servlet-class>dao.logout_Servelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>logout_Servelet</servlet-name>
+    <url-pattern>/logout_Servelet</url-pattern>
+  </servlet-mapping>
 </web-app>

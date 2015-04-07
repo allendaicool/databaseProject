@@ -10,19 +10,30 @@
 <head>
 
 <link href="table.css" rel="stylesheet">
-
+<style>
+#listOpponent, #listOpponent th, #listOpponent td {
+    border: 1px solid black;
+}
+</style>
 <%
       Connection conn;
-	  conn = DButil.getConnection();
+	   conn = DButil.getConnection();
 	  
 	   PreparedStatement stat = null;
+	   PreparedStatement match = null;
 	   String addPlayer = "select * from Players where playerID = ?";
-	  
+	   String list_match = "select A.name, B.name, D.matchDate, D.environment, C.score from Players A, Players B, Plays C, Matches D where A.playerID = ?" 
+			   +" and A.playerID = C.playerID and C.opponentID=B.playerID and C.matchID = D.matchID";
 	   stat = conn.prepareStatement(addPlayer);
+	   match = conn.prepareStatement(list_match);
 	   String playerID = request.getParameter("playerID");
-	   System.out.println(playerID);
+	   
 	   stat.setString(1,playerID);
+	   match.setString(1,playerID);
 	   ResultSet rst = stat.executeQuery();
+	   ResultSet match_rst = match.executeQuery();
+	   
+	   
 	   String name = null; 
 	   int age = 0;;
 	   String nationality = null;
@@ -90,9 +101,32 @@
 			</tr>
 		</table>
 	</div>
+	
+	<br/>
+	
+	<table id="listOpponent">
+  <tr>
+    <th>playerName</th>
+    <th>opponentName</th>
+    <th>matchDate</th>
+    <th>environment</th>
+    <th>score</th>  
+  </tr>
+  
+  <% while (match_rst.next()) {%>
+  <tr>
+    <td><%=match_rst.getString(1) %></td>
+    <td><%=match_rst.getString(2) %></td>
+    <td><%=match_rst.getDate(3) %></td>
+    <td><%=match_rst.getString(4) %></td>
+    <td><%=match_rst.getString(5) %></td>
+  </tr>
+  <% } %>
+</table>
+<% conn.close(); %>
+	
 
 
-	<% conn.close(); %>
 
 
 

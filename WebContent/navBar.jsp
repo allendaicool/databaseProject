@@ -66,6 +66,13 @@
 			 <%} }else{%>
 			<div class="navbar-form navbar-right">
 				<p style="color: green">user successfully logged in</p>
+				&nbsp &nbsp 
+				
+				<form class="navbar-form navbar-right" action="logout_Servelet">
+					<input type="hidden" name="signout" value="signout">
+				<button type="submit" class="btn btn-success">Sign out</button>
+			</form>
+
 			</div>
 			 
 			<%} %>

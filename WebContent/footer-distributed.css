@@ -5,7 +5,7 @@
 	width: 100%;
 	text-align: left;
 	font: normal 16px sans-serif;
-
+    position:relative;
 	padding: 45px 50px;
 	margin-top: 80px;
 }
