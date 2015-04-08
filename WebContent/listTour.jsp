@@ -1,31 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="java.io.*,java.util.*"%>
+<%@ page import="java.io.*" %>
 
+
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="dao.DButil"%>
 <%@ page import="java.io.*"%>
 
-<html>
-<head>
 
-<link href="table.css" rel="stylesheet">
-
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
 
 <%
-      Connection conn;
-	  conn = DButil.getConnection();
+       Connection conn;
+	   conn = DButil.getConnection();
 	  
 	   PreparedStatement stat = null;
 	   String addTour = "select * from Tournaments, Players where championID = playerID and tournamentID = ? order by year desc";
+	  
 	   
 	   stat = conn.prepareStatement(addTour);
 	   String tourID = request.getParameter("tournamentID");
@@ -43,12 +34,14 @@
 	   
 	  
 %>
-<title>Tournament</title>
-</head>
+
 <body>
+
+   	<jsp:include page="navBar.jsp" />
+   
 	<h2>Tournament Information</h2>
   
-	<div style="width: 400px; height: 500px;">
+	<div style="position:relative;top:50px;width: 400px; height: 500px;">
 		<table border="1" style="width: 100%">
 		
 		<%
@@ -80,14 +73,9 @@
 		</table>
 	</div>
 	
-	<script>
- 		 $(function() {
-  		  $( "#tabs" ).tabs();
-  		});
- 		 </script>
+	
  		 
-	<jsp:include page="navBar.html" />
-	<div style="position: relative;top: -350px;">
+	<div style="position: relative;top: 50px;height:400px">
 	<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1">Past Champions</a></li>
@@ -113,7 +101,7 @@
 						<td>
 							<form id="playerid" action="listPlayer.jsp" method="post">
 								<input type="hidden" value=<%=championID%> name="playerID">
-								</input> <a href="#" onclick="$(this).closest('form').submit();"> <%= championName%>
+								<a href="#" onclick="$(this).closest('form').submit();"> <%= championName%>
 								</a>
 							</form>
 
@@ -145,21 +133,9 @@
 		</div>
 		<div id="tabs-3">
 			<%
+				ResultSet rs = null;
+			    
 				PreparedStatement stat2 = null;
-				String findMatch = "select * from Matches, Players, Referees, Tournaments where Tournaments.tournamentID = Matches.tournamentID and winnerID = playerID and Matches.refereeID = Referees.refereeID and Tournaments.tournamentID = ? and year = ? and year(matchDate) = year order by matchDate desc";
-			 	stat2 = conn.prepareStatement(findMatch);
-				
-			   	System.out.println(tourID);
-			   	stat2.setString(1,tourID);
-			   	int matchYear = 2015;
-			   	if (request.getParameter("matchYear") != null) {
-			   		matchYear = Integer.valueOf(request.getParameter("matchYear"));
-			   	}
-			   	
-				System.out.println(matchYear);
-				stat2.setInt(2,matchYear);
-			   	ResultSet rs = stat2.executeQuery();
-				
 				String date = null; 
 				String round = null;
 				int duration = 0;
@@ -167,6 +143,23 @@
 				String environment = null;
 				String referee = null;
 				Double payment = 0.0;  
+				
+				if (request.getParameter("matchYear") != null) {
+					String findMatch = "select * from Matches, Players, Referees, Tournaments where Tournaments.tournamentID = Matches.tournamentID and winnerID = playerID and Matches.refereeID = Referees.refereeID and Tournaments.tournamentID = ? and year = ? and year(matchDate) = year order by matchDate desc";
+			 		stat2 = conn.prepareStatement(findMatch);
+				
+			   		System.out.println(tourID);
+			   		stat2.setString(1,tourID);
+			   		int matchYear = 2015;
+			   
+			   		matchYear = Integer.valueOf(request.getParameter("matchYear"));
+			   	
+			   	
+					System.out.println(matchYear);
+					stat2.setInt(2,matchYear);
+			   		rs = stat2.executeQuery();
+			 }
+				
 				
 			%>
 				<form action="#tabs-3" method="post">
@@ -194,7 +187,8 @@
 						<td>Payment</td>
 					</tr>
 					<%
-					while (rs.next()){
+					if (rs!=null){
+					   while (rs.next()){
 					 date = rs.getDate("matchDate").toString();
 					 
 					 round = rs.getString("round");
@@ -208,7 +202,18 @@
 				
 					
 					<tr>
-						<td><%= date %></td>
+						<td>
+						
+						<form id="matchFact" action="matchFacts.jsp"  method="post">
+								<input type="hidden" value=<%=tourID%> name="tourID">
+								<input type="hidden" value=<%=tourID%> name="tournamentID">
+								<input type="hidden" value=<%=date%> name="date">
+								 
+								<a href="#" onclick="$(this).closest('form').submit();"> <%= date%>
+								</a>
+					    </form>
+												
+						 </td>
 						<td><%= round %></td>
 						<td><%= duration %></td>
 						<td><%= environment %></td>
@@ -216,8 +221,12 @@
 						<td><%= referee %></td>
 						<td><%= payment %></td>
 					</tr>
-					<% } %>
+					<% 	 }
+					  }
+		         %>
 				</table>
+				
+			
 		</div>
 	<% conn.close(); %>
 	</div>

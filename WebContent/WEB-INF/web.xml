@@ -69,4 +69,44 @@
     <servlet-name>logout_Servelet</servlet-name>
     <url-pattern>/logout_Servelet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeletePlayerServelet</display-name>
+    <servlet-name>DeletePlayerServelet</servlet-name>
+    <servlet-class>dao.DeletePlayerServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeletePlayerServelet</servlet-name>
+    <url-pattern>/DeletePlayerServelet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>deleteCoachServelet</display-name>
+    <servlet-name>deleteCoachServelet</servlet-name>
+    <servlet-class>dao.deleteCoachServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deleteCoachServelet</servlet-name>
+    <url-pattern>/deleteCoachServelet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>deletePlayerServelet</display-name>
+    <servlet-name>deletePlayerServelet</servlet-name>
+    <servlet-class>dao.deletePlayerServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deletePlayerServelet</servlet-name>
+    <url-pattern>/deletePlayerServelet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>updatePlayerServlet</display-name>
+    <servlet-name>updatePlayerServlet</servlet-name>
+    <servlet-class>dao.updatePlayerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updatePlayerServlet</servlet-name>
+    <url-pattern>/updatePlayerServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

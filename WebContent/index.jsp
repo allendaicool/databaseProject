@@ -31,7 +31,7 @@
 	  //conn.setAutoCommit(false);
     %>
 	<jsp:include page="navBar.jsp" />
-	<div style="position: relative;top: 50px;overflow:scroll">
+	<div style="position: relative;top: 100px;overflow:scroll">
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1">Players</a></li>
@@ -59,7 +59,8 @@
 						<td>
 							<form id="playerid" action="listPlayer.jsp" method="post">
 								<input type="hidden" value=<%=playerID%> name="playerID">
-								</input> <a href="#" onclick="$(this).closest('form').submit();"> <%= name%>
+								 
+								<a href="#" onclick="$(this).closest('form').submit();"> <%= name%>
 								</a>
 							</form>
 
@@ -131,9 +132,40 @@
    		</fieldset>
     </form>
     
+    <form action="deletePlayerServelet" method="post"  style="Position:relative;top:30px;padding-left: 4cm; padding-right: auto;border: 1px solid red">
+   		<fieldset  >
+			<legend>
+				delete Coach
+			</legend>
+   		Name: 
+		<input name="name" />&nbsp
+   		<input type="submit" value="delete" />
+   		</fieldset>
+    </form>
+    
+     
+    <form action="updatePlayerServlet" method="post" style="Position:relative;top:30px;padding-left: 4cm; padding-right: auto; border: 1px solid red">
+    <fieldset  >
+			<legend>
+				update_player
+			</legend>
+		Name: <input name="name"/><br/>
+    	Age: <input name="age" /><br/>
+   		Nationality: <input name="nationality" /> </br>
+   		Height: <input name="height" /> </br>
+   		Weight: <input name="weight" /> </br>
+   		Plays: <input type="radio" name="plays" value="Right-handed" checked>Right-handed
+   		&nbsp &nbsp &nbsp  
+   		<input type="radio" name="plays" value="Left-handed" checked>Left-handed</br>
+   		CareerPrizeMoney: <input name="careerPrizeMoney"/></br> 
+   		Rank: <input name="rank"/> </br>
+   		Points:<input name="points"/> </br>
+   		<input type="submit" value="Update" />
+   		</fieldset>
+    </form>
     
     <%} %>
-        <div class="center-block">
+        <div class="center-block" style="Position:relative;top:30px">
     <form action="checkPlayerServlet" method="post" >
    		playerName: 
 		 <input name="pname" /> &nbsp &nbsp
