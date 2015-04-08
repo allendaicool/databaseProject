@@ -38,10 +38,10 @@
 <body>
 
    	<jsp:include page="navBar.jsp" />
-   
+   <div style="position:relative;top:100px;left: 50px; width: 800px; height: 500px;">
 	<h2>Tournament Information</h2>
   
-	<div style="position:relative;top:50px;width: 400px; height: 500px;">
+	
 		<table border="1" style="width: 100%">
 		
 		<%
@@ -75,7 +75,7 @@
 	
 	
  		 
-	<div style="position: relative;top: 50px;height:400px">
+	<div style="position: relative;top: -250px;height:400px">
 	<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1">Past Champions</a></li>
@@ -142,10 +142,11 @@
 				String winner = null;
 				String environment = null;
 				String referee = null;
-				Double payment = 0.0;  
+				String score = null;  
+				String matchID = null;
 				
 				if (request.getParameter("matchYear") != null) {
-					String findMatch = "select * from Matches, Players, Referees, Tournaments where Tournaments.tournamentID = Matches.tournamentID and winnerID = playerID and Matches.refereeID = Referees.refereeID and Tournaments.tournamentID = ? and year = ? and year(matchDate) = year order by matchDate desc";
+					String findMatch = "select * from Matches, Players, Referees, Tournaments, Plays where Players.playerID = Plays.playerID and Plays.matchID = Matches.matchID and Tournaments.tournamentID = Matches.tournamentID and winnerID = Players.playerID and Matches.refereeID = Referees.refereeID and Tournaments.tournamentID = ? and year = ? and year(matchDate) = year order by matchDate desc";
 			 		stat2 = conn.prepareStatement(findMatch);
 				
 			   		System.out.println(tourID);
@@ -162,9 +163,10 @@
 				
 				
 			%>
-				<form action="#tabs-3" method="post">
+			
+				<form action="#tabs-3" style="width:110px;" method="post">
 					<div>
-						<select id="matchYear" name="matchYear">
+						<select class="form-control" id="matchYear" name="matchYear">
 							<option value="2015">2015</option>
 							<option value="2014">2014</option>
 							<option value="2013">2013</option>
@@ -173,7 +175,7 @@
 							<option value="2010">2010</option>
 						</select>
 						<input type="hidden" value=<%=tourID%> name="tournamentID">
-						<input type="submit" value="Filter">
+						<div style="Position:relative; left=20px;"><input type="submit" value="Filter Match"></div>
 					</div>
 				</form>	
 				<table border="1" style="width: 100%">
@@ -184,42 +186,47 @@
 						<td>Environment</td>
 						<td>Winner</td>
 						<td>Referee</td>
-						<td>Payment</td>
+						<td>Scores</td>
 					</tr>
 					<%
 					if (rs!=null){
 					   while (rs.next()){
 					 date = rs.getDate("matchDate").toString();
-					 
+					 matchID = rs.getString("matchID");
 					 round = rs.getString("round");
 					 duration = rs.getInt("time");
 					 winner = rs.getString("Players.name");
 					 environment = rs.getString("environment");
 					 category = rs.getString("category");
 					 referee = rs.getString("Referees.name");
-					 payment = rs.getDouble("payment");
+					 score = rs.getString("score");
 					 %>
 				
 					
 					<tr>
 						<td>
-						
-						<form id="matchFact" action="matchFacts.jsp"  method="post">
-								<input type="hidden" value=<%=tourID%> name="tourID">
-								<input type="hidden" value=<%=tourID%> name="tournamentID">
-								<input type="hidden" value=<%=date%> name="date">
-								 
-								<a href="#" onclick="$(this).closest('form').submit();"> <%= date%>
-								</a>
-					    </form>
-												
+							<%= date%>			
 						 </td>
 						<td><%= round %></td>
 						<td><%= duration %></td>
 						<td><%= environment %></td>
-						<td><%= winner %></td>
+						<td>
+						 	<form id="playerid1" action="listPlayer.jsp" method="post">
+								<input type="hidden" value=<%=rs.getString("playerId")%> name="playerID">
+								<a href="#" onclick="$(this).closest('form').submit();">  <%= winner %>
+								</a>
+							</form>
 						<td><%= referee %></td>
-						<td><%= payment %></td>
+						<td>
+							<form id="matchFact" action="matchFacts.jsp"  method="post">
+								<input type="hidden" value=<%=matchID%> name="matchID">
+								<input type="hidden" value=<%=tourID%> name="tournamentID">
+								<input type="hidden" value=<%=date%> name="date">
+								 
+								<a href="#" onclick="$(this).closest('form').submit();"> <%= score %>
+								</a>
+					    	</form>
+						</td>
 					</tr>
 					<% 	 }
 					  }
@@ -232,6 +239,6 @@
 	</div>
 	</div>
 
-
+<jsp:include page="footer.jsp" />
 </body>
 </html>

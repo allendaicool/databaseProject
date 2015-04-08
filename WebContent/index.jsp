@@ -9,6 +9,15 @@
 
 
 <style>
+
+label{
+			width: 200px;
+			float: left;
+			text-align: right;
+			margin-right: 0.5em;
+			display: block
+		}
+
 #pomatch, #pomatch th, #pomatch td {
     border: 1px solid black;
     
@@ -22,6 +31,7 @@
 .
 </style>
 	<%
+	try {
       Connection conn;
 	  conn = DButil.getConnection();
 	  String findAllPlayer = "select * from Players order by rank";
@@ -106,104 +116,130 @@
 				</table>
 				<%
 			   conn.close();
+	} catch(Exception e){
+		e.printStackTrace();
+		throw e;
+		
+	}
 			%>
 			</div>
 		</div>
 		<%     if (session.getAttribute("currentSessionUser") != null) {%>
             
-      <form action="addPlayerServlet" method="post"  style="padding-left: 4cm; padding-right: auto;border: 1px solid red">
+      <form action="addPlayerServlet" method="post"  style="Position:relative;top:30px; padding-left: 4cm; padding-right: auto;border: 1px solid red">
    		<fieldset  >
 			<legend>
-				add_player
+				Add New Player
 			</legend>
-   		Name: 
-		<input name="name" /><br/>
-   		Age: <input name="age" /><br/>
-   		nationality: <input name="nationality" /> </br>
-   		height: <input name="height" /> </br>
-   		weight: <input name="weight" /> </br>
-   		plays: <input type="radio" name="plays" value="Right-handed" checked>Right-handed
+   		<label for="name">Name:</label>
+		<input name="name"/><br/>
+		<label for="age">Age:</label>
+    	<input name="age" /><br/>
+    	<label for="nationality">Nationality:</label>
+   		<input name="nationality" /> </br>
+   		<label for="height">Height:</label>
+   		<input name="height" /> </br>
+   		<label for="weight">Weight:</label>
+   		<input name="weight" align="right"/> </br>
+   		<label for="careerPrizeMoney">Career Prize Money:</label>
+   		<input name="careerPrizeMoney"/></br> 
+   		<label for="rank">Rank:</label>
+   		<input name="rank"/> </br>
+   		<label for="points">Points:</label>
+   		<input name="points"/> </br>
+   		<label for="plays">Plays:</label>
+   		<input type="radio" name="plays" value="Right-handed" checked>Right-handed
    		&nbsp &nbsp &nbsp  
-   		<input type="radio" name="plays" value="Left-handed" checked>Left-handed
-   		careerPrizeMoney: <input name="careerPrizeMoney"/> 
-   		rank: <input name="rank"/> 
-   		points:<input name="points"/> 
-   		<input type="submit" value="add" />
+   		<input type="radio" name="plays" value="Left-handed" checked>Left-handed</br>
+   		<input type="submit" value="Add" />
    		</fieldset>
     </form>
     
-    <form action="deletePlayerServelet" method="post"  style="Position:relative;top:30px;padding-left: 4cm; padding-right: auto;border: 1px solid red">
-   		<fieldset  >
-			<legend>
-				delete Coach
-			</legend>
-   		Name: 
-		<input name="name" />&nbsp
-   		<input type="submit" value="delete" />
-   		</fieldset>
-    </form>
-    
-     
+   
     <form action="updatePlayerServlet" method="post" style="Position:relative;top:30px;padding-left: 4cm; padding-right: auto; border: 1px solid red">
     <fieldset  >
 			<legend>
-				update_player
+				Update Player Information
 			</legend>
-		Name: <input name="name"/><br/>
-    	Age: <input name="age" /><br/>
-   		Nationality: <input name="nationality" /> </br>
-   		Height: <input name="height" /> </br>
-   		Weight: <input name="weight" /> </br>
-   		Plays: <input type="radio" name="plays" value="Right-handed" checked>Right-handed
+		<label for="name">Name:</label>
+		<input name="name"/><br/>
+		<label for="age">Age:</label>
+    	<input name="age" /><br/>
+    	<label for="nationality">Nationality:</label>
+   		<input name="nationality" /> </br>
+   		<label for="height">Height:</label>
+   		<input name="height" /> </br>
+   		<label for="weight">Weight:</label>
+   		<input name="weight" align="right"/> </br>
+   		<label for="careerPrizeMoney">Career Prize Money:</label>
+   		<input name="careerPrizeMoney"/></br> 
+   		<label for="rank">Rank:</label>
+   		<input name="rank"/> </br>
+   		<label for="points">Points:</label>
+   		<input name="points"/> </br>
+   		<label for="plays">Plays:</label>
+   		<input type="radio" name="plays" value="Right-handed" checked>Right-handed
    		&nbsp &nbsp &nbsp  
    		<input type="radio" name="plays" value="Left-handed" checked>Left-handed</br>
-   		CareerPrizeMoney: <input name="careerPrizeMoney"/></br> 
-   		Rank: <input name="rank"/> </br>
-   		Points:<input name="points"/> </br>
-   		<input type="submit" value="Update" />
+   		<input type="submit" value="Update" /></br>
    		</fieldset>
     </form>
     
+      <form action="deletePlayerServelet" method="post"  style="Position:relative;top:30px;padding-left: 4cm; padding-right: auto;border: 1px solid red">
+   		<fieldset  >
+			<legend>
+				Delete Player
+			</legend>
+   		<label for="name">Player Name:</label>
+		<input name="name" />&nbsp &nbsp &nbsp
+   		<div style="Position:relative; left:208px;"><input type="submit" value="Delete" /></div>
+   		</fieldset>
+    </form>
+    
+    
     <%} %>
-        <div class="center-block" style="Position:relative;top:30px">
-    <form action="checkPlayerServlet" method="post" >
-   		playerName: 
-		 <input name="pname" /> &nbsp &nbsp
-   		opponentName: <input name="oname" /> 
-   		&nbsp &nbsp   
-   		<input type="submit" value="checkMatch" />
-    </form>     
+        <div  style="Position:relative;top:30px; padding-left: 4cm;padding-right: auto;border: 1px solid red">
+   			<form action="checkPlayerServlet" method="post" >
+   				<legend>
+					Check Match
+				</legend>
+   			 	<label for="playerName">Player Name:</label> 
+				 <input name="pname" /></br>
+				 <label for="opponentName">Opponent Name:</label> 
+   				 <input name="oname" /> </br>
+   				<div style="Position:relative; left:208px;"><input type="submit" value="Check" /></div>
+    		</form>     
         </div>
-	<div class="center-block"  >
+		<div class="center-block" style="Position:relative; top: 30px; left:4cm;" >
 
 	     <% 
 	        ArrayList<player_opponent> rst = (ArrayList<player_opponent>)session.getAttribute("resultSet");
 	        session.removeAttribute("resultSet");
 	     %>
 	     <%if(rst!=null){ %>
-	         <table id="pomatch" style="margin-left: auto;margin-right: auto">
-        <tr>
-       	 <th>playerName</th>
-    	 <th>opponentName</th>
-    	<th>matchDate</th>
-    	<th>environment</th>
-    	<th>score</th>  
-  		</tr>
+	    <table id="pomatch" style="Position:relative; top: 30px;">
+        	<tr>
+       			 <th>Player Name</th>
+    			 <th>Opponent Name</th>
+    			 <th>Match Date</th>
+    			 <th>Environment</th>
+    			 <th>Score</th>  
+  			</tr>
   
-   <% for (player_opponent temp:rst) {%>
-  <tr>
-    <td><%=temp.playerName %></td>
-    <td><%=temp.opponentName %></td>
-    <td><%=temp.matchDate %></td>
-    <td><%=temp.environment %></td>
-    <td><%=temp.score %></td>
-  </tr>
-  <% } 
-  }%>
+  		 <% for (player_opponent temp:rst) {%>
+ 			 <tr>
+   				 <td><%=temp.playerName %></td>
+    			 <td><%=temp.opponentName %></td>
+   				 <td><%=temp.matchDate %></td>
+   				 <td><%=temp.environment %></td>
+   				 <td><%=temp.score %></td>
+  			</tr>
+  		<% } 
+ 		 }%>
   
-</table>
-	</div>
-       <jsp:include page="footer.jsp" />
+		</table>
+	 </div>
+     <jsp:include page="footer.jsp" />
 	
 	</div>
 	

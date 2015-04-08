@@ -45,7 +45,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.jsp">tennis</a>
+			<a class="navbar-brand" href="index.jsp">ATP World Tour</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<%  if(session.getAttribute("currentSessionUser") ==null) {%>

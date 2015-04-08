@@ -43,8 +43,8 @@ public class checkPlayerServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement match = null;
-		String list_match = "select A.name, B.name, D.matchDate, D.environment, C.score from Players A, Players B, Plays C, Matches D where A.name = ?" 
-				+" and B.name=? and A.playerID = C.playerID and C.opponentID=B.playerID and C.matchID = D.matchID";
+		String list_match = "select distinct A.name, B.name, D.matchDate, D.environment, C.score from Players A, Players B, Plays C, Matches D, Tournaments T where A.name = ?" 
+				+" and B.name=? and A.playerID = C.playerID and C.opponentID=B.playerID and C.matchID = D.matchID and D.tournamentID = T.tournamentID";
 		try {
 			conn = DButil.getConnection();
 
@@ -56,8 +56,9 @@ public class checkPlayerServlet extends HttpServlet {
 			ResultSet set = match.executeQuery();
 	        HttpSession session = request.getSession();	
 	        List<player_opponent> listing = new ArrayList<player_opponent>();
+	        
 	        while(set.next()){
-	        	player_opponent temp = new player_opponent(set.getString(1),set.getString(2),set.getDate(3), set.getString(4),set.getString(5));
+	        	player_opponent temp = new player_opponent(set.getString("A.name"),set.getString("B.name"),set.getDate("D.matchDate"), set.getString("T.name"),set.getString("C.score"));
 	        	listing.add(temp);
 	        }
 	        session.setAttribute("resultSet", listing);

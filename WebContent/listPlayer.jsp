@@ -21,9 +21,9 @@
 	  
 	   PreparedStatement stat = null;
 	   PreparedStatement match = null;
-	   String addPlayer = "select * from Players where playerID = ?";
-	   String list_match = "select A.name, B.name, D.matchDate, D.environment, C.score from Players A, Players B, Plays C, Matches D where A.playerID = ?" 
-			   +" and A.playerID = C.playerID and C.opponentID=B.playerID and C.matchID = D.matchID";
+	   String addPlayer = "select * from Players, Coaches where Players.playerID = ? and Players.playerID = Coaches.playerID";
+	   String list_match = "select distinct A.name, B.name, D.matchDate, D.environment, C.score, T.name, C.matchID, A.playerID, C.opponentID, D.tournamentID from Players A, Players B, Plays C, Matches D, Tournaments T where A.playerID = ?" 
+			   +" and A.playerID = C.playerID and C.opponentID=B.playerID and C.matchID = D.matchID and D.tournamentID = T.tournamentID";
 	   stat = conn.prepareStatement(addPlayer);
 	   match = conn.prepareStatement(list_match);
 	   String playerID = request.getParameter("playerID");
@@ -43,92 +43,130 @@
 	   double careerPrizeMoney = 0;
 	   int rank = 0; 
 	   int points = 0;
+	   String coach = null;
+	   
 	   if(rst.next()){
-		   name = rst.getString(2);
-		   age = rst.getInt(3);
-		   nationality = rst.getString(4);
-		   height = rst.getDouble(5);
-		   weight = rst.getDouble(6);
-		   plays = rst.getString(7);
-		   careerPrizeMoney = rst.getDouble(8);
-		   rank = rst.getInt(9);
-		   points = rst.getInt(10);
+		   name = rst.getString("Players.name");
+		   age = rst.getInt("Players.age");
+		   nationality = rst.getString("Players.nationality");
+		   height = rst.getDouble("height");
+		   weight = rst.getDouble("weight");
+		   plays = rst.getString("plays");
+		   careerPrizeMoney = rst.getDouble("careerPrizeMoney");
+		   rank = rst.getInt("rank");
+		   points = rst.getInt("points");
+		   coach = rst.getString("Coaches.name");
 	   }
 	  
 %>
 <title>Player</title>
 </head>
 <body>
+	<jsp:include page="navBar.jsp" />
+	<div style="position: relative;overflow:scroll">
+	<div style="position:relative;top:100px;left: 50px; width: 1000px; height: 550px;">
 	<h2>Player Information</h2>
 
-	<div style="width: 250px; height: 500px;">
+	<div style="width: 400px; height: 550px;">
 		<table border="1" style="width: 100%">
 			<tr>
-				<td>name</td>
+				<td>Name</td>
 				<td><%=name %></td>
 			</tr>
 			<tr>
-				<td>age</td>
+				<td>Age</td>
 				<td><%=age %></td>
 			</tr>
 			<tr>
-				<td>nationality</td>
+				<td>Nationality</td>
 				<td><%=nationality %></td>
 			</tr>
 			<tr>
-				<td>height</td>
+				<td>Height</td>
 				<td><%=height %></td>
 			</tr>
 			<tr>
-				<td>weight</td>
+				<td>Weight</td>
 				<td><%=weight %></td>
 			</tr>
 			<tr>
-				<td>plays</td>
+				<td>Plays</td>
 				<td><%=plays %></td>
 			</tr>
 			<tr>
-				<td>careerPrizeMoney</td>
+				<td>Career Prize Money</td>
 				<td><%=careerPrizeMoney %></td>
 			</tr>
 			<tr>
-				<td>rank</td>
+				<td>Rank</td>
 				<td><%=rank %></td>
 			</tr>
 			<tr>
-				<td>points</td>
+				<td>Points</td>
 				<td><%=points %></td>
 			</tr>
+			<tr>
+				<td>Coach</td>
+				<td><%=coach %></td>
+			</tr>
+				
 		</table>
 	</div>
 	
 	<br/>
-	
-	<table id="listOpponent">
+<div style="position:relative;top: -350px; width: 1000px; height: 500px;">
+<h3>Match History</h3>
+	<table id="listOpponent" width="100%">
   <tr>
-    <th>playerName</th>
-    <th>opponentName</th>
-    <th>matchDate</th>
-    <th>environment</th>
-    <th>score</th>  
+  	<th>Match Date</th>
+    <th>Player Name</th>
+    <th>Opponent Name</th>
+    <th>Tournament</th>
+    <th>Score</th>  
   </tr>
   
   <% while (match_rst.next()) {%>
   <tr>
-    <td><%=match_rst.getString(1) %></td>
-    <td><%=match_rst.getString(2) %></td>
-    <td><%=match_rst.getDate(3) %></td>
-    <td><%=match_rst.getString(4) %></td>
-    <td><%=match_rst.getString(5) %></td>
+   	<td>
+    	 <%= match_rst.getDate(3)%>
+	</td>
+    <td>
+   		 <form id="playerid1" action="listPlayer.jsp" method="post">
+			<input type="hidden" value=<%=match_rst.getString(8)%> name="playerID">
+			<a href="#" onclick="$(this).closest('form').submit();">  <%= match_rst.getString(1) %>
+			</a>
+		</form>
+    
+    </td>
+    <td>
+    	<form id="playerid2" action="listPlayer.jsp" method="post">
+			<input type="hidden" value=<%=match_rst.getString(9)%> name="playerID">
+			<a href="#" onclick="$(this).closest('form').submit();">  <%= match_rst.getString(2) %>
+			</a>
+		</form>
+	</td>
+    <td>
+    	<form id="tourid" action="listTour.jsp" method="post">
+				<input type="hidden" value=<%=match_rst.getString(10)%> name="tournamentID">
+				</input> <a href="#" onclick="$(this).closest('form').submit();"> <%= match_rst.getString(6)%>
+				</a>
+		</form>
+    </td>
+    <td>
+   		 <form id="matchFact" action="matchFacts.jsp"  method="post">
+			<input type="hidden" value=<%=match_rst.getString(7)%> name="matchID">
+			<input type="hidden" value=<%=match_rst.getDate(3)%> name="date">
+			<a href="#" onclick="$(this).closest('form').submit();"> <%= match_rst.getString(5)%></a>
+		</form>
   </tr>
   <% } %>
 </table>
 <% conn.close(); %>
 	
-
-
-
-
-
+	</div>
+	</div>
+	
+</div>
+ <jsp:include page="footer.jsp" />
 </body>
 </html>
